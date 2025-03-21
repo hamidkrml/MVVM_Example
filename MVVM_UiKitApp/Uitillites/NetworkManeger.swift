@@ -46,7 +46,9 @@ class NetworkManeger {
                 return
             }
             
-
+//            if let jsonString = String(data: data, encoding: .utf8) {
+//                print("Gelen JSON: \(jsonString)")
+//            }
             
             do {
                 let decoder = JSONDecoder()
@@ -61,11 +63,11 @@ class NetworkManeger {
     }
     
     func popularMovies(completion:@escaping(Result<[MovieResponse],Error>)->Void){
-        let endpoint = EndPoint.popularMovies
+        let endpoint = EndPoint.deneme1
         request(endpoint) { (result: Result<Welcome, Error>) in
             switch result {
             case .success(let welcome):
-                completion(.success(welcome.results))
+                completion(.success(welcome.results!))
             case .failure(let error):
                 completion(.failure(error))
             }

@@ -1,8 +1,10 @@
 import Foundation
-struct Welcome: Codable {
-    let page: Int
-    let results: [MovieResponse] // 🔧 DİKKAT: Artık Result değil!
-    let totalPages, totalResults: Int
+struct Welcome: Decodable {
+
+    let page: Int?
+    let results: [MovieResponse]? // 🔧 DİKKAT: Artık Result değil!
+    let totalPages, totalResults: Int?
+
 
     enum CodingKeys: String, CodingKey {
         case page, results
@@ -11,19 +13,19 @@ struct Welcome: Codable {
     }
 }
 
-struct MovieResponse: Codable { // 🔧 DİKKAT: Adı değişti!
-    let adult: Bool
+struct MovieResponse: Decodable {
+    // 🔧 DİKKAT: Adı değişti!
+    let adult: Bool?
     let backdropPath: String?
-    let genreIDS: [Int]
-    let id: Int
-    let originalLanguage, originalTitle, overview: String
-    let popularity: Double
+    let genreIDS: [Int]?
+    let id: Int?
+    let originalLanguage, originalTitle, overview: String?
+    let popularity: Double?
     let posterPath: String?
-    let releaseDate, title: String
-    let video: Bool
-    let voteAverage: Double
-    let voteCount: Int
-
+    let releaseDate, title: String?
+    let video: Bool?
+    let voteAverage: Double?
+    let voteCount: Int?
     enum CodingKeys: String, CodingKey {
         case adult
         case backdropPath = "backdrop_path"

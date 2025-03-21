@@ -21,7 +21,7 @@ class ViewController: UIViewController {
                 switch result{
                 case .success(let success):
                     success.forEach { comment in
-                        print(comment.backdropPath ?? "b")
+                        print(comment.id)
                     }
                 case .failure(let failure):
                     print(failure.localizedDescription)

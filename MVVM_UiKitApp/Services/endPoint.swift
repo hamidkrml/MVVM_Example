@@ -16,6 +16,7 @@ enum http : String {
 enum EndPoint {
     
     case popularMovies
+    case deneme1
 }
 
 protocol EndPointProtocol {
@@ -31,18 +32,23 @@ protocol EndPointProtocol {
 
 extension EndPoint:EndPointProtocol{
     var headers: [String : String]? {
-        return nil
+        let header: [String: String] = [
+            "accept": "application/json",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MmI3MWFjYmMwZmI5M2M1OTI0YmVkYTY4MTY2YTMzOSIsIm5iZiI6MTc0MjU0OTQ2NC4xMzc5OTk4LCJzdWIiOiI2N2RkMzFkOGQ2ODEwNDUyNzk2OTgwZGYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.qquIBMdIXE6TuPlFG6T5JVP8EDXlEOMOfo65G2Q8IkM"
+        ]
+        return header
     }
     
     var queryItems: [URLQueryItem]? {
         switch self {
         case .popularMovies:
             return  [
-                URLQueryItem(name: "api_key", value: "42b71acbc0fb93c5924beda68166a339"),
-                
+                URLQueryItem(name: "api_key", value: "42b71acbc0fb93c5924beda68166a339")
             ]
-            
-            
+        case .deneme1:
+            return   [
+                URLQueryItem(name: "page", value: "2")
+            ]
         }
     }
     
@@ -55,12 +61,15 @@ extension EndPoint:EndPointProtocol{
         switch self {
         case .popularMovies:
             return "/3/movie/popular"
+        case .deneme1:
+            return "/3/movie/changes"
         }
     }
     
     var method: http {
         switch self {
         case .popularMovies: return .get
+        case .deneme1: return .get
         }
     }
     
@@ -97,8 +106,9 @@ extension EndPoint:EndPointProtocol{
                 request.setValue(value, forHTTPHeaderField: key)
             }
         }
-        
+        print(request)
         return request
+        
     }
 }
 //  Bu dosya, API bağlantılarını yönetir ve gerekli HTTP isteklerini oluşturur.
