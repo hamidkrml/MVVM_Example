@@ -15,7 +15,7 @@ enum http : String {
 
 enum EndPoint {
     case User
-    
+    case ratedMovies
 }
 
 protocol EndPointProtocol {
@@ -23,28 +23,58 @@ protocol EndPointProtocol {
     var path:String {get}
     var method: http {get}
     var headers: [String: String]? {get}
+    var queryItems: [URLQueryItem]? { get } // yeni eklendi!
+    
     func request() -> URLRequest
 }
 
 
 extension EndPoint:EndPointProtocol{
+    var queryItems: [URLQueryItem]? {
+        switch self {
+        case .ratedMovies:
+            return [
+                URLQueryItem(name: "language", value: "en-US"),
+                URLQueryItem(name: "page", value: "1"),
+                URLQueryItem(name: "sort_by", value: "created_at.asc")
+            ]
+        default:
+            return nil
+        }
+    }
+    
     
     var baseurl: String {
-        return ""
+        return "https://api.themoviedb.org"
     }
     
     var path: String {
-        return "/"
-        
+        switch self {
+        case .User:
+            return "/"
+        case .ratedMovies:
+            return "/3/account/21896169/rated/movies"
+        }
     }
+    
     var method: http {
         switch self {
-        case .User: return .get
+        case .User, .ratedMovies:
+            return .get
         }
     }
     var headers: [String : String]? {
-        return nil
+        switch self {
+        case .ratedMovies:
+            return [
+                "accept": "application/json",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MmI3MWFjYmMwZmI5M2M1OTI0YmVkYTY4MTY2YTMzOSIsIm5iZiI6MTc0MjU0OTQ2NC4xMzc5OTk4LCJzdWIiOiI2N2RkMzFkOGQ2ODEwNDUyNzk2OTgwZGYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.qquIBMdIXE6TuPlFG6T5JVP8EDXlEOMOfo65G2Q8IkM"
+                ]
+        default:
+            return nil
+        }
     }
+    
     
     /*
      Bu fonksiyon, bir API isteği (URLRequest) oluşturur ve
@@ -53,12 +83,16 @@ extension EndPoint:EndPointProtocol{
      - path: Belirli endpoint (yol).
      - method: HTTP metodu (GET, POST vb.).
      - headers: (isteğe bağlı) HTTP başlıkları.
-    */
+     */
     func request() -> URLRequest {
         guard var commpents = URLComponents(string: baseurl)else{
             fatalError("Urlhatalidir")
         }
         commpents.path = path
+        
+        if let queryItems = queryItems {
+            commpents.queryItems = queryItems
+        }
         var request = URLRequest(url: commpents.url!)
         request.httpMethod = method.rawValue
         
