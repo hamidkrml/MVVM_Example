@@ -7,11 +7,24 @@
 
 import UIKit
 
-class HomeScreen: UIViewController{
+protocol HomeScreenP{
+    
+}
 
+
+
+final class HomeScreen: UIViewController{
+
+    private let vievModel = HomeVievModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        vievModel.view = self
+        vievModel.vievDidLoad()
     }
+}
 
+
+extension HomeScreen:HomeScreenP{
+    
 }
