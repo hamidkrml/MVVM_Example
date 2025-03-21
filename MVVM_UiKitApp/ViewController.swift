@@ -1,31 +1,34 @@
+//
+//  ViewController.swift
+//  MVVM_UiKitApp
+//
+//  Created by hamid on 18.03.25.
+//
+
 import UIKit
 
 class ViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        // API isteğini gönderme
-        fetchRatedMovies()
+        // Do any additional sxetup after loading the view.
+        apicagirisi()
     }
-    
-    func fetchRatedMovies() {
-       
-        
-        
-        NetworkManeger.shared.request(EndPoint.ratedMovies) { (result: Result<MovieResponse, Error>) in
-            switch result {
-            case .success(let movieResponse):
-               
-                print("Veri başarıyla alındı:")
-                print("Toplam Sayfa: \(String(describing: movieResponse.page))")
-               
-                DispatchQueue.main.async {
+
+    func apicagirisi(){
+        DispatchQueue.main.async{
+            NetworkManeger.shared.popularMovies { result in
+                switch result{
+                case .success(let success):
+                    success.forEach { comment in
+                        print(comment.backdropPath ?? "b")
+                    }
+                case .failure(let failure):
+                    print(failure.localizedDescription)
                 }
                 
-            case .failure(let error):
-                print("Hata oluştu: \(error.localizedDescription)")
             }
         }
     }
 }
+

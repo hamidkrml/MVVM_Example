@@ -14,8 +14,8 @@ enum http : String {
 }
 
 enum EndPoint {
-    case User
-    case ratedMovies
+    
+    case popularMovies
 }
 
 protocol EndPointProtocol {
@@ -30,16 +30,19 @@ protocol EndPointProtocol {
 
 
 extension EndPoint:EndPointProtocol{
+    var headers: [String : String]? {
+        return nil
+    }
+    
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .ratedMovies:
-            return [
-                URLQueryItem(name: "language", value: "en-US"),
-                URLQueryItem(name: "page", value: "1"),
-                URLQueryItem(name: "sort_by", value: "created_at.asc")
+        case .popularMovies:
+            return  [
+                URLQueryItem(name: "api_key", value: "42b71acbc0fb93c5924beda68166a339"),
+                
             ]
-        default:
-            return nil
+            
+            
         }
     }
     
@@ -50,30 +53,17 @@ extension EndPoint:EndPointProtocol{
     
     var path: String {
         switch self {
-        case .User:
-            return "/"
-        case .ratedMovies:
-            return "/3/account/21896169/rated/movies"
+        case .popularMovies:
+            return "/3/movie/popular"
         }
     }
     
     var method: http {
         switch self {
-        case .User, .ratedMovies:
-            return .get
+        case .popularMovies: return .get
         }
     }
-    var headers: [String : String]? {
-        switch self {
-        case .ratedMovies:
-            return [
-                "accept": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MmI3MWFjYmMwZmI5M2M1OTI0YmVkYTY4MTY2YTMzOSIsIm5iZiI6MTc0MjU0OTQ2NC4xMzc5OTk4LCJzdWIiOiI2N2RkMzFkOGQ2ODEwNDUyNzk2OTgwZGYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.qquIBMdIXE6TuPlFG6T5JVP8EDXlEOMOfo65G2Q8IkM"
-                ]
-        default:
-            return nil
-        }
-    }
+    
     
     
     /*
@@ -85,26 +75,31 @@ extension EndPoint:EndPointProtocol{
      - headers: (isteğe bağlı) HTTP başlıkları.
      */
     func request() -> URLRequest {
-        guard var commpents = URLComponents(string: baseurl)else{
-            fatalError("Urlhatalidir")
+        guard var components = URLComponents(string: baseurl) else {
+            fatalError("URL hatalıdır")
         }
-        commpents.path = path
         
+       
+        components.path = path
+        
+       
         if let queryItems = queryItems {
-            commpents.queryItems = queryItems
+            components.queryItems = queryItems
         }
-        var request = URLRequest(url: commpents.url!)
+        
+       
+        var request = URLRequest(url: components.url!)
         request.httpMethod = method.rawValue
         
-        if let header = headers {
-            for (key,value) in header{
+       
+        if let headers = headers {
+            for (key, value) in headers {
                 request.setValue(value, forHTTPHeaderField: key)
             }
         }
+        
         return request
     }
-    
-    
 }
 //  Bu dosya, API bağlantılarını yönetir ve gerekli HTTP isteklerini oluşturur.
 //  EndPoint enum'u, farklı API uç noktalarını ve her bir uç nokta için kullanılan HTTP metodunu tanımlar.

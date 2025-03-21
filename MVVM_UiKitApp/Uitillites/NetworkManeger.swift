@@ -9,6 +9,7 @@ import Foundation
 
 class NetworkManeger {
     
+    
     /**
      Bu fonksiyon, belirtilen endpoint'e HTTP isteği yaparak veriyi alır ve belirtilen model türüne dönüştürür.
      
@@ -28,32 +29,46 @@ class NetworkManeger {
     static let shared = NetworkManeger()
     private init(){}
     
-    func request<T:Decodable>(_ endpoint:EndPoint,completion: @escaping (Result<T, Error>) -> Void ){
+    func request<T: Decodable>(_ endpoint:EndPoint,completion: @escaping (Result<T, Error>) -> Void){
         
-        let task = URLSession.shared.dataTask(with: endpoint.request()) { data, response, error in
-            if let error = error{
+        let task = URLSession.shared.dataTask(with: endpoint.request()) {data, response, error in
+            if let error = error {
                 completion(.failure(error))
                 return
             }
-            guard let response = response as? HTTPURLResponse, response.statusCode >= 200 else{
-                completion(.failure(URLError(.badServerResponse)))
+            guard let response = response as? HTTPURLResponse , response.statusCode >= 200 , response.statusCode <= 299 else {
+                completion(.failure(NSError(domain: "Invalid Response", code: 0)))
                 return
-                
             }
             
             guard let data = data else {
-                
-                completion(.failure(URLError(.badURL)))
+                completion(.failure(NSError(domain: "Invalid Response data", code: 0)))
                 return
             }
-            do{
-                let decodedata = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(decodedata))
-            }catch{
+            
+
+            
+            do {
+                let decoder = JSONDecoder()
+                let decoded = try decoder.decode(Welcome.self, from: data)
+                completion(.success(decoded as! T))
+            } catch {
+                print(String(describing: error))
                 completion(.failure(error))
             }
         }
         task.resume()
     }
+    
+    func popularMovies(completion:@escaping(Result<[MovieResponse],Error>)->Void){
+        let endpoint = EndPoint.popularMovies
+        request(endpoint) { (result: Result<Welcome, Error>) in
+            switch result {
+            case .success(let welcome):
+                completion(.success(welcome.results))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }
-
