@@ -12,14 +12,20 @@ protocol HomeVievModelP{
     func vievDidLoad()
 }
 
+
+
+
 final class HomeVievModel{
-    var view:HomeScreenP?
+    weak var view:HomeScreenP?
+    
 }
+
+
+
 
 extension HomeVievModel:HomeVievModelP{
     func vievDidLoad() {
-        <#code#>
+        view?.configrueVc()
     }
-    
-    
+   
 }

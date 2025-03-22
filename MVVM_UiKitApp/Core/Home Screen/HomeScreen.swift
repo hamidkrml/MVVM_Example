@@ -7,16 +7,20 @@
 
 import UIKit
 
-protocol HomeScreenP{
-    
+protocol HomeScreenP:AnyObject{
+    func configrueVc()
+    func configrueCollectionView()
 }
 
-
-
 final class HomeScreen: UIViewController{
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let vievModel = HomeVievModel()
     
+    private var collectionView:UICollectionView! = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         vievModel.view = self
@@ -26,5 +30,12 @@ final class HomeScreen: UIViewController{
 
 
 extension HomeScreen:HomeScreenP{
-    
+    func configrueVc() {
+        view.backgroundColor = .systemBackground
+    }
+    func configrueCollectionView() {
+        collectionView = UICollectionView(frame: .zero,collectionViewLayout: UICollectionViewLayout())
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+    }
 }
