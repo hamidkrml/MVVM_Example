@@ -26,6 +26,7 @@ final class HomeVievModel{
 extension HomeVievModel:HomeVievModelP{
     func vievDidLoad() {
         view?.configrueVc()
+        view?.configrueCollectionView()
     }
    
 }

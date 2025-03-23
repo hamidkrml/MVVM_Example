@@ -13,9 +13,6 @@ protocol HomeScreenP:AnyObject{
 }
 
 final class HomeScreen: UIViewController{
-    
-   
-    
     private let vievModel = HomeVievModel()
     
     private var collectionView: UICollectionView!
@@ -39,4 +36,7 @@ extension HomeScreen:HomeScreenP{
         collectionView.constrantGeneric(view: view)
         collectionView.backgroundColor = .red
     }
+}
+#Preview{
+    HomeScreen()
 }

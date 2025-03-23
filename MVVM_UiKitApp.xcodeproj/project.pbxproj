@@ -40,11 +40,6 @@
 			path = MVVM_UiKitApp;
 			sourceTree = "<group>";
 		};
-		03F49A172D8D775900D8C92F /* MVVM_UiKitAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MVVM_UiKitAppTests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +64,6 @@
 			isa = PBXGroup;
 			children = (
 				03CD79962D895D03005933A6 /* MVVM_UiKitApp */,
-				03F49A172D8D775900D8C92F /* MVVM_UiKitAppTests */,
 				03CD79952D895D03005933A6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,9 +114,6 @@
 			);
 			dependencies = (
 				03F49A1B2D8D775900D8C92F /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				03F49A172D8D775900D8C92F /* MVVM_UiKitAppTests */,
 			);
 			name = MVVM_UiKitAppTests;
 			packageProductDependencies = (

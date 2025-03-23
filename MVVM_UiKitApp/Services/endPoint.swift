@@ -14,7 +14,6 @@ enum http : String {
 }
 
 enum EndPoint {
-    
     case popularMovies
     case deneme1
 }
