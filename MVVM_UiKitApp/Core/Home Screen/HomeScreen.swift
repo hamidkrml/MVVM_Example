@@ -26,15 +26,18 @@ final class HomeScreen: UIViewController{
 
 extension HomeScreen:HomeScreenP{
     func configrueVc() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray2
     }
     func configrueCollectionView() {
         collectionView = UICollectionView(frame: .zero,collectionViewLayout: UIHelper.createHomeFlowLayout())
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(MoviCell.self, forCellWithReuseIdentifier: MoviCell.reuseID)
         collectionView.constrantGeneric(view: view)
-        collectionView.backgroundColor = .red
+        collectionView.backgroundColor = .clear
     }
 }
 //#Preview{
@@ -44,11 +47,12 @@ extension HomeScreen:HomeScreenP{
 
 extension HomeScreen : UICollectionViewDelegate,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        0
+        10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviCell.reuseID, for: indexPath) as! MoviCell
+        return cell
     }
     
     

@@ -18,8 +18,8 @@ enum UIHelper{
         layout.scrollDirection = .vertical
         
             //genisligi cihizin genisligi kadar olacak uzunlugu ise genisligin 1.5 kadar olacak 
-        layout.itemSize = CGSize(width: itemWith, height: itemWith * 1.5 )
-        
+        layout.itemSize = CGSize(width: itemWith * 0.95, height: itemWith * 1.5 )
+        layout.minimumLineSpacing = 30
         return layout
     }
 }
