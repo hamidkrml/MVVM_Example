@@ -14,8 +14,9 @@ enum http : String {
 }
 
 enum EndPoint {
-    case popularMovies
-    case deneme1
+    case popularMovies(page:Int)
+
+    case image(path: String)
 }
 
 protocol EndPointProtocol {
@@ -31,44 +32,56 @@ protocol EndPointProtocol {
 
 extension EndPoint:EndPointProtocol{
     var headers: [String : String]? {
-        let header: [String: String] = [
-            "accept": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MmI3MWFjYmMwZmI5M2M1OTI0YmVkYTY4MTY2YTMzOSIsIm5iZiI6MTc0MjU0OTQ2NC4xMzc5OTk4LCJzdWIiOiI2N2RkMzFkOGQ2ODEwNDUyNzk2OTgwZGYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.qquIBMdIXE6TuPlFG6T5JVP8EDXlEOMOfo65G2Q8IkM"
-        ]
-        return header
+        switch self{
+            
+        case .popularMovies:
+            return [
+                "accept": "application/json",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MmI3MWFjYmMwZmI5M2M1OTI0YmVkYTY4MTY2YTMzOSIsIm5iZiI6MTc0MjU0OTQ2NC4xMzc5OTk4LCJzdWIiOiI2N2RkMzFkOGQ2ODEwNDUyNzk2OTgwZGYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.qquIBMdIXE6TuPlFG6T5JVP8EDXlEOMOfo65G2Q8IkM"
+            ]
+        case .image:
+            return nil
+        }
     }
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .popularMovies:
+        case .popularMovies(let page):
             return  [
-                URLQueryItem(name: "api_key", value: "42b71acbc0fb93c5924beda68166a339")
+                URLQueryItem(name: "language", value: "en-US"),
+                URLQueryItem(name: "page", value: "\(page)"),
             ]
-        case .deneme1:
-            return   [
-                URLQueryItem(name: "page", value: "2")
-            ]
+        case .image: return nil
         }
     }
     
     
     var baseurl: String {
-        return "https://api.themoviedb.org"
+        switch self{
+            
+        case .popularMovies:
+            return "https://api.themoviedb.org"
+       
+        case .image:
+            return "https://image.tmdb.org"
+        }
     }
-    
     var path: String {
         switch self {
         case .popularMovies:
             return "/3/movie/popular"
-        case .deneme1:
-            return "/3/movie/changes"
+       
+        case .image(let path):
+            let cleanedPath = path.starts(with: "/") ? String(path.dropFirst()) : path
+            return "/t/p/w500/\(cleanedPath)"
         }
     }
     
     var method: http {
         switch self {
         case .popularMovies: return .get
-        case .deneme1: return .get
+      
+        case .image: return .get
         }
     }
     
@@ -83,29 +96,20 @@ extension EndPoint:EndPointProtocol{
      - headers: (isteğe bağlı) HTTP başlıkları.
      */
     func request() -> URLRequest {
-        guard var components = URLComponents(string: baseurl) else {
-            fatalError("URL hatalıdır")
-        }
-        
-       
-        components.path = path
-        
-       
-        if let queryItems = queryItems {
-            components.queryItems = queryItems
-        }
-        
-       
-        var request = URLRequest(url: components.url!)
-        request.httpMethod = method.rawValue
-        
-       
-        if let headers = headers {
-            for (key, value) in headers {
-                request.setValue(value, forHTTPHeaderField: key)
+        let fullURLString = baseurl+path
+        guard let url = URL(string: fullURLString) else {
+                fatalError("Invalid URL: \(fullURLString)")
             }
-        }
-        print(request)
+        var request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+        
+        if let headers = headers {
+                for (key, value) in headers {
+                    request.setValue(value, forHTTPHeaderField: key)
+                }
+            }
+     
+        print(fullURLString)
         return request
         
     }
