@@ -29,9 +29,9 @@
         static let shared = NetworkManeger()
         private init(){}
         
-        func request<T: Decodable>(_ endpoint:EndPoint,completion: @escaping (Result<T, Error>) -> Void){
+        func request(_ endpoint:EndPoint,completion: @escaping (Result<Data, Error>) -> Void){
             
-            let task = URLSession.shared.dataTask(with: endpoint.request()) {data, response, error in
+           let task = URLSession.shared.dataTask(with: endpoint.request()) {data, response, error in
                 if let error = error {
                     completion(.failure(error))
                     return
@@ -45,19 +45,9 @@
                     completion(.failure(NSError(domain: "Invalid Response data", code: 0)))
                     return
                 }
-    //
-    //            if let jsonString = String(data: data, encoding: .utf8) {
-    //                print("Gelen JSON: \(jsonString)")
-    //            }
+               
                 
-                do {
-                    let decoder = JSONDecoder()
-                    let decoded = try decoder.decode(T.self, from: data)
-                    completion(.success(decoded))
-                } catch {
-                    print(String(describing: error))
-                    completion(.failure(error))
-                }
+                completion(.success(data))
             }
             task.resume()
         }
