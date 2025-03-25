@@ -96,22 +96,24 @@ extension EndPoint:EndPointProtocol{
      - headers: (isteğe bağlı) HTTP başlıkları.
      */
     func request() -> URLRequest {
-        let fullURLString = baseurl+path
-        guard let url = URL(string: fullURLString) else {
-                fatalError("Invalid URL: \(fullURLString)")
+        guard var commpents = URLComponents(string: baseurl)else{
+            fatalError("url hatalidir")
+        }
+        commpents.path = path
+        if let queryItems = queryItems {
+            commpents.queryItems = queryItems
             }
-        var request = URLRequest(url: url)
-            request.httpMethod = method.rawValue
+        var request = URLRequest(url: commpents.url!)
+        request.httpMethod = method.rawValue
         
-        if let headers = headers {
-                for (key, value) in headers {
-                    request.setValue(value, forHTTPHeaderField: key)
-                }
+        
+        if let header = headers{
+            for (key,value) in header{
+                request.setValue(value, forHTTPHeaderField: key)
             }
-     
-        print(fullURLString)
+        }
+        print(request)
         return request
-        
     }
 }
 //  Bu dosya, API bağlantılarını yönetir ve gerekli HTTP isteklerini oluşturur.
