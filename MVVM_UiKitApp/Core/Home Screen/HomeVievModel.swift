@@ -10,6 +10,7 @@ import Foundation
 protocol HomeVievModelP{
     var view: HomeScreenP? { get set }
     func vievDidLoad()
+    func fotoDownload()
 }
 
 
@@ -17,16 +18,29 @@ protocol HomeVievModelP{
 
 final class HomeVievModel{
     weak var view:HomeScreenP?
-    
+//    movieResponse tam olarak Modelimizin isimi gelen veriyi yeni bir diz yazmak icin
+    private let service = MovieService()
+    var movies : [MovieResult] = []
 }
 
 
 
 
 extension HomeVievModel:HomeVievModelP{
+        
     func vievDidLoad() {
         view?.configrueVc()
         view?.configrueCollectionView()
+        fotoDownload()
     }
-   
+    func fotoDownload() {
+        service.fetchPopularMovies(page: 1) { [weak self] returnedMovies in
+            guard let self = self else { return }
+            guard let returnedMovies = returnedMovies else { return }
+            self.movies = returnedMovies
+            print(returnedMovies)
+        }
+    }
+
+    
 }
