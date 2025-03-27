@@ -9,10 +9,13 @@ import UIKit
 
 class MoviCell: UICollectionViewCell {
 
+    private var imageview : UIImageView!
+    
     static let reuseID = "Movicell"
     override init(frame:CGRect) {
         super.init(frame: frame)
         configureCell()
+        configureImageview()
     }
     
     required init?(coder: NSCoder) {
@@ -20,6 +23,14 @@ class MoviCell: UICollectionViewCell {
     }
     func configureCell(){
         backgroundColor = .systemGray
-        layer.cornerRadius = 8
+        layer.cornerRadius = 16
+        clipsToBounds = true
+    }
+    private func configureImageview(){
+        imageview = uiimage(frame: .zero)
+        addSubview(imageview)
+        imageview.translatesAutoresizingMaskIntoConstraints = false
+        imageview.backgroundColor = .red
+        imageview.constrantGeneric(view: self)
     }
 }
