@@ -37,8 +37,14 @@ extension HomeVievModel:HomeVievModelP{
         service.fetchPopularMovies(page: 1) { [weak self] returnedMovies in
             guard let self = self else { return }
             guard let returnedMovies = returnedMovies else { return }
-            self.movies = returnedMovies
-            print(returnedMovies)
+            
+            DispatchQueue.main.async {
+                self.movies = returnedMovies
+                print(returnedMovies)
+                self.view?.configrueCollectionView()
+            }
+            // CollectionView'ı güncelle
+
         }
     }
 
