@@ -52,6 +52,9 @@ extension HomeScreen : UICollectionViewDelegate,UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviCell.reuseID, for: indexPath) as! MoviCell
+        
+        cell.setcell(movie: vievModel.movies[indexPath.item])
+            
         return cell
     }
     

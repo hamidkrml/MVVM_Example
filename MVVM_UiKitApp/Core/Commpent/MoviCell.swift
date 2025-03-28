@@ -9,7 +9,7 @@ import UIKit
 
 class MoviCell: UICollectionViewCell {
 
-    private var imageview : UIImageView!
+    private var imageview : uiimage!
     
     static let reuseID = "Movicell"
     override init(frame:CGRect) {
@@ -21,16 +21,21 @@ class MoviCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setcell(movie:MovieResult){
+        imageview.downloadImage(movie: movie)
+    }
+    
+    
     func configureCell(){
         backgroundColor = .systemGray
         layer.cornerRadius = 16
-        clipsToBounds = true
+        clipsToBounds = true  // tasdigindan dolayi moviecell 16 radius verilip amma configureImageview func olmadigindan dolayi tasiyor
     }
     private func configureImageview(){
         imageview = uiimage(frame: .zero)
         addSubview(imageview)
-        imageview.translatesAutoresizingMaskIntoConstraints = false
-        imageview.backgroundColor = .red
+      //  imageview.translatesAutoresizingMaskIntoConstraints = false  \\ uiimage init func icersinde false cekilde
         imageview.constrantGeneric(view: self)
     }
 }
