@@ -28,8 +28,8 @@
         
         static let shared = NetworkManeger()
         private init(){}
-        
-        func request(_ endpoint:EndPoint,completion: @escaping (Result<Data, Error>) -> Void){
+        @discardableResult
+        func request(_ endpoint:EndPoint,completion: @escaping (Result<Data, Error>) -> ())->URLSessionDataTask{
             
            let task = URLSession.shared.dataTask(with: endpoint.request()) {data, response, error in
                 if let error = error {
@@ -50,6 +50,7 @@
                 completion(.success(data))
             }
             task.resume()
+            return task
         }
         
     }

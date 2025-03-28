@@ -8,7 +8,7 @@
 import UIKit
 
 class uiimage: UIImageView {
-
+    var dataTask : URLSessionDataTask?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,7 +22,7 @@ class uiimage: UIImageView {
     
     func downloadImage(movie:MovieResult){
         let endpoint = EndPoint.image(path: movie.posterPath ?? "")
-        NetworkManeger.shared.request(endpoint) {[weak self] resultin in
+        dataTask = NetworkManeger.shared.request(endpoint) {[weak self] resultin in
             guard let strongself = self else { return }
             switch resultin {
                 

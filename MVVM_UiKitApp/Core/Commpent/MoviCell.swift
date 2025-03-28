@@ -21,10 +21,16 @@ class MoviCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageview.image = nil
+    }
     
     func setcell(movie:MovieResult){
         imageview.downloadImage(movie: movie)
     }
+    
     
     
     func configureCell(){
