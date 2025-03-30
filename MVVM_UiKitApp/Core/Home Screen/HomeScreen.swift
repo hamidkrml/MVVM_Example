@@ -41,10 +41,10 @@ extension HomeScreen:HomeScreenP{
         
     }
     func reloadCollectionView() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
+       
+        collectionView.reoldOnMainTherad()
             
-     }
+     
             
         
     }
@@ -66,6 +66,11 @@ extension HomeScreen : UICollectionViewDelegate,UICollectionViewDataSource{
             
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        vievModel.DetailfotoDownload(id: vievModel.movies[indexPath.item]._id)
+    }
+    
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let ofsety = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
