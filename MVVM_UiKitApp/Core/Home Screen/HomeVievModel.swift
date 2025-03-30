@@ -21,6 +21,7 @@ final class HomeVievModel{
 //    movieResponse tam olarak Modelimizin isimi gelen veriyi yeni bir diz yazmak icin
     private let service = MovieService()
     var movies : [MovieResult] = []
+    private var page : Int = 1
 }
 
 
@@ -34,15 +35,18 @@ extension HomeVievModel:HomeVievModelP{
         fotoDownload()
     }
     func fotoDownload() {
-        service.fetchPopularMovies(page: 1) { [weak self] returnedMovies in
+        service.fetchPopularMovies(page: page) { [weak self] returnedMovies in
             guard let self = self else { return }
             guard let returnedMovies = returnedMovies else { return }
             
             DispatchQueue.main.async {
-                self.movies = returnedMovies
+                self.movies.append(contentsOf: returnedMovies)
+                self.page += 1
                 print(returnedMovies)
+                
                 self.view?.configrueCollectionView()
             }
+            
             // CollectionView'ı güncelle
 
         }

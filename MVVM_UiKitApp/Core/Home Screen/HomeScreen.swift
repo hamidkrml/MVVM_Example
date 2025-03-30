@@ -10,6 +10,7 @@ import UIKit
 protocol HomeScreenP:AnyObject{
     func configrueVc()
     func configrueCollectionView()
+    func reloadCollectionView()
 }
 
 final class HomeScreen: UIViewController{
@@ -37,7 +38,15 @@ extension HomeScreen:HomeScreenP{
         collectionView.dataSource = self
         collectionView.register(MoviCell.self, forCellWithReuseIdentifier: MoviCell.reuseID)
         collectionView.constrantGeneric(view: view)
-        collectionView.backgroundColor = .clear
+        
+    }
+    func reloadCollectionView() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            
+     }
+            
+        
     }
 }
 //#Preview{
@@ -57,6 +66,15 @@ extension HomeScreen : UICollectionViewDelegate,UICollectionViewDataSource{
             
         return cell
     }
-    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let ofsety = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        
+        if ofsety >= contentHeight - (2 * height) {
+            vievModel.fotoDownload()
+        
+        }
+    }
     
 }
