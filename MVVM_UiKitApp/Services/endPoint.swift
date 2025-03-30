@@ -15,8 +15,10 @@ enum http : String {
 
 enum EndPoint {
     case popularMovies(page:Int)
-
+    
     case image(path: String)
+    
+    case detail(id:Int)
 }
 
 protocol EndPointProtocol {
@@ -41,6 +43,8 @@ extension EndPoint:EndPointProtocol{
             ]
         case .image:
             return nil
+        case .detail:
+            return nil
         }
     }
     
@@ -52,6 +56,11 @@ extension EndPoint:EndPointProtocol{
                 URLQueryItem(name: "page", value: "\(page)"),
             ]
         case .image: return nil
+        case .detail:
+            return [
+                URLQueryItem(name: "api_key", value: "e112ed72df8da5c3b38e4e6579896bc6"),
+                URLQueryItem(name: "language", value: "en-US")
+            ]
         }
     }
     
@@ -64,6 +73,8 @@ extension EndPoint:EndPointProtocol{
        
         case .image:
             return "https://image.tmdb.org"
+        case .detail:
+            return "https://api.themoviedb.org"
         }
     }
     var path: String {
@@ -74,6 +85,8 @@ extension EndPoint:EndPointProtocol{
         case .image(let path):
             let cleanedPath = path.starts(with: "/") ? String(path.dropFirst()) : path
             return "/t/p/w500/\(cleanedPath)"
+        case .detail(id: let id):
+            return "/3/movie/\(id)"
         }
     }
     
@@ -82,6 +95,7 @@ extension EndPoint:EndPointProtocol{
         case .popularMovies: return .get
       
         case .image: return .get
+        case .detail: return .get
         }
     }
     
