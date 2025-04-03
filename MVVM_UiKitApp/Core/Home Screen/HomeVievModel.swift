@@ -55,7 +55,7 @@ extension HomeVievModel:HomeVievModelP{
         service.downloadDetail(id: id) { [weak self] returnedDetail in
             guard let self = self else { return }
             guard let returnedDetail = returnedDetail else{return /*kullanciya hata bildire biliriz*/}
-            
+            self.view?.navigationToDetail()
             print(returnedDetail)
         }
     }

@@ -11,6 +11,7 @@ protocol HomeScreenP:AnyObject{
     func configrueVc()
     func configrueCollectionView()
     func reloadCollectionView()
+    func navigationToDetail()
 }
 
 final class HomeScreen: UIViewController{
@@ -50,6 +51,13 @@ extension HomeScreen:HomeScreenP{
             
      
             
+        
+    }
+    func navigationToDetail() {
+        DispatchQueue.main.async{
+            let detailScren = DetailScreen()
+            self.navigationController?.pushViewController(detailScren, animated: true)
+        }
         
     }
 }
