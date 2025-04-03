@@ -7,7 +7,7 @@
 
 import UIKit
 
-class uiimage: UIImageView {
+class PosterImageView: UIImageView {
     var dataTask : URLSessionDataTask?
 
     override init(frame: CGRect) {

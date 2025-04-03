@@ -9,7 +9,7 @@ import UIKit
 
 class MoviCell: UICollectionViewCell {
 
-    private var imageview : uiimage!
+    private var imageview : PosterImageView!
     
     static let reuseID = "Movicell"
     override init(frame:CGRect) {
@@ -39,7 +39,7 @@ class MoviCell: UICollectionViewCell {
         clipsToBounds = true  // tasdigindan dolayi moviecell 16 radius verilip amma configureImageview func olmadigindan dolayi tasiyor
     }
     private func configureImageview(){
-        imageview = uiimage(frame: .zero)
+        imageview = PosterImageView(frame: .zero)
         addSubview(imageview)
       //  imageview.translatesAutoresizingMaskIntoConstraints = false  \\ uiimage init func icersinde false cekilde
         imageview.constrantGeneric(view: self)
