@@ -21,13 +21,15 @@ final class HomeScreen: UIViewController{
         super.viewDidLoad()
         vievModel.view = self
         vievModel.vievDidLoad()
+        
     }
 }
 
 
 extension HomeScreen:HomeScreenP{
     func configrueVc() {
-        view.backgroundColor = .systemGray2
+        view.backgroundColor = .systemBackground
+        title = "TMDB Series MVVM"
     }
     func configrueCollectionView() {
         collectionView = UICollectionView(frame: .zero,collectionViewLayout: UIHelper.createHomeFlowLayout())
@@ -38,6 +40,8 @@ extension HomeScreen:HomeScreenP{
         collectionView.dataSource = self
         collectionView.register(MoviCell.self, forCellWithReuseIdentifier: MoviCell.reuseID)
         collectionView.constrantGeneric(view: view)
+        
+        collectionView.backgroundColor = .clear
         
     }
     func reloadCollectionView() {
