@@ -15,6 +15,7 @@ protocol DetailViewModelProtocol {
 
 
 final class DetailViewModel{
+    // bellekte sismemesin sagliyor detail screen gitigi zaman init ciktidi deinit olmasi icin WEAK
     weak var view: DetailScreenProtocol?
 }
 
@@ -23,6 +24,9 @@ extension DetailViewModel : DetailViewModelProtocol{
         view?.configureVC()
         view?.configurePosterImageView()
         view?.downloadposterImage()
+        view?.configerTitleLabel()
+        view?.configerDateLabel()
+        view?.configerOverviewLabel()
     }
     
     
