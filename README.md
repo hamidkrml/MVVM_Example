@@ -23,11 +23,17 @@ To run the project locally, follow these steps:
 1. **Clone the Repository**
    ```bash
    git@github.com:hamidkrml/MVVM_Example.git
-  ## App Overview
-![Simulator Screenshot - iPhone 16 - 2025-04-12 at 17 46 15](https://github.com/user-attachments/assets/d0c45908-8cf3-486b-b848-c6f83bee81b3)
-![Simulator Screenshot - iPhone 16 - 2025-04-12 at 17 46 42](https://github.com/user-attachments/assets/17b028d8-447f-4156-adb3-e4685079b045)
-![Simulator Screenshot - iPhone 16 - 2025-04-12 at 17 46 47](https://github.com/user-attachments/assets/93926bcc-9939-4850-a957-151dc042d215)
-![Simulator Screenshot - iPhone 16 - 2025-04-12 at 17 46 53](https://github.com/user-attachments/assets/b101328c-7768-446f-8b62-c43e4a72a7c9)
+ <h3>App Overview</h3>
+
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/d0c45908-8cf3-486b-b848-c6f83bee81b3" width="200" />
+  <img src="https://github.com/user-attachments/assets/17b028d8-447f-4156-adb3-e4685079b045" width="200" />
+</p>
+
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/93926bcc-9939-4850-a957-151dc042d215" width="200" />
+  <img src="https://github.com/user-attachments/assets/b101328c-7768-446f-8b62-c43e4a72a7c9" width="200" />
+</p>
 
 ## Minimal Xcode Project (No External Packages)
 
