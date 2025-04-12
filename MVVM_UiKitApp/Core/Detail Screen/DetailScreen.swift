@@ -11,14 +11,17 @@ import UIKit
 protocol DetailScreenProtocol :AnyObject{
     func configureVC()
     func configurePosterImageView()
+    func downloadposterImage()
 }
 
-class DetailScreen: UIViewController {
+final class DetailScreen: UIViewController {
     private let movie : MovieResult
     
     private let viewModel = DetailViewModel()
     
     private var posterImage : PosterImageView!
+    
+    private let padding :CGFloat = 16
     
     init(movie: MovieResult) {
         self.movie = movie
@@ -44,16 +47,21 @@ extension DetailScreen:DetailScreenProtocol{
         posterImage = PosterImageView(frame: .zero)
         view.addSubview(posterImage)
         
-        let posterPath = CGFloat.dHeight * 0.4
+        posterImage.layer.cornerRadius = 16
+        
+        let posterPath = CGFloat.dWidth * 0.4
         
         NSLayoutConstraint.activate([
-            posterImage.topAnchor.constraint(equalTo: view.topAnchor),
-            posterImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            posterImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            posterImage.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: padding),
             posterImage.widthAnchor.constraint(equalToConstant: posterPath),
             posterImage.heightAnchor.constraint(equalToConstant: posterPath * 1.5)
             
         ])
-        posterImage.backgroundColor = .systemGray6
+        posterImage.backgroundColor = .red
+    }
+    func downloadposterImage() {
+        posterImage.downloadImage(movie: movie)
     }
     
 }
